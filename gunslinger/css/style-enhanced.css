@@ -1,0 +1,1806 @@
+/* ========================================
+   GUNSLINGER - ENHANCED WESTERN THEME
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Western Wood Texture Background */
+body {
+    font-family: 'Courier New', monospace;
+    background: 
+        linear-gradient(135deg, rgba(44, 24, 16, 0.9) 0%, rgba(74, 44, 26, 0.9) 100%),
+        repeating-linear-gradient(90deg, #3a2416 0px, #3a2416 2px, #2c1810 2px, #2c1810 4px);
+    color: #f4e4c1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Dust particles effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(244, 228, 193, 0.1) 1px, transparent 1px),
+        radial-gradient(circle, rgba(244, 228, 193, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    background-position: 0 0, 40px 40px;
+    animation: dustFloat 20s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes dustFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100px); }
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Wanted Poster Style Title */
+h1 {
+    font-size: 4.5em;
+    color: #d4af37;
+    text-shadow: 
+        3px 3px 0px #8b6914,
+        6px 6px 10px rgba(0, 0, 0, 0.8);
+    margin-bottom: 30px;
+    letter-spacing: 12px;
+    position: relative;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+h1::before {
+    content: '★';
+    position: absolute;
+    left: -60px;
+    color: #d4af37;
+    font-size: 0.6em;
+    animation: starTwinkle 2s ease-in-out infinite;
+}
+
+h1::after {
+    content: '★';
+    position: absolute;
+    right: -60px;
+    color: #d4af37;
+    font-size: 0.6em;
+    animation: starTwinkle 2s ease-in-out infinite 1s;
+}
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Wooden Panel Screens */
+.screen {
+    background: 
+        linear-gradient(135deg, rgba(101, 67, 33, 0.95) 0%, rgba(139, 69, 19, 0.95) 100%);
+    border: 5px solid #d4af37;
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* Nail decorations on corners */
+.screen::before,
+.screen::after {
+    content: '⚫';
+    position: absolute;
+    color: #8b6914;
+    font-size: 1.5em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.screen::before {
+    top: 10px;
+    left: 10px;
+}
+
+.screen::after {
+    top: 10px;
+    right: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Leather-style Buttons */
+button {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c1810;
+    border: 3px solid #8b6914;
+    padding: 16px 45px;
+    font-size: 1.4em;
+    font-weight: 900;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 
+        0 6px 0 #8b6914,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    font-family: 'Courier New', monospace;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #f4e4c1 0%, #d4af37 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 0 #8b6914,
+        0 10px 20px rgba(0, 0, 0, 0.6);
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 #8b6914,
+        0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Rope Divider */
+.divider {
+    margin: 25px 0;
+    text-align: center;
+    position: relative;
+    height: 30px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        #8b6914 0px,
+        #8b6914 10px,
+        #d4af37 10px,
+        #d4af37 20px
+    );
+    border-radius: 3px;
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.divider span {
+    background: rgba(101, 67, 33, 0.95);
+    padding: 5px 20px;
+    color: #d4af37;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 2px solid #8b6914;
+    border-radius: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Customization Panels - Saloon Door Style */
+.customization-container,
+.online-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.player-custom,
+.online-actions {
+    flex: 1;
+    padding: 25px;
+    background: 
+        linear-gradient(135deg, rgba(139, 69, 19, 0.8) 0%, rgba(101, 67, 33, 0.8) 100%);
+    border-radius: 12px;
+    border: 4px solid #d4af37;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.player-custom h3,
+.online-actions h3 {
+    color: #d4af37;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* Canvas with Frame */
+.player-custom canvas {
+    display: block;
+    margin: 0 auto 20px;
+    background: rgba(135, 206, 235, 0.4);
+    border: 4px solid #8b6914;
+    border-radius: 8px;
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Carousel - Brass Knobs Style */
+.carousel-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 18px 0;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    border: 2px solid #8b6914;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-btn {
+    background: radial-gradient(circle, #d4af37 0%, #8b6914 100%);
+    color: #2c1810;
+    border: 2px solid #8b6914;
+    padding: 10px 18px;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 0;
+    box-shadow: 
+        0 4px 0 #654321,
+        0 6px 10px rgba(0, 0, 0, 0.4);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: radial-gradient(circle, #f4e4c1 0%, #d4af37 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 0 #654321,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-btn:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 2px 0 #654321,
+        0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.item-name {
+    flex: 1;
+    text-align: center;
+    font-size: 1.2em;
+    color: #f4e4c1;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Game Canvas - Desert Vista */
+#game-canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 6px solid #8b6914;
+    border-radius: 10px;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Score Display - Wanted Poster Style */
+.score {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4em;
+    padding: 18px;
+    background: 
+        linear-gradient(135deg, rgba(139, 69, 19, 0.9) 0%, rgba(101, 67, 33, 0.9) 100%);
+    border-radius: 8px;
+    border: 3px solid #d4af37;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+#status-text {
+    font-size: 2.2em;
+    margin-top: 20px;
+    min-height: 60px;
+    color: #d4af37;
+    font-weight: 900;
+    text-shadow: 
+        2px 2px 0 #8b6914,
+        4px 4px 10px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 2px 2px 0 #8b6914, 4px 4px 10px rgba(0, 0, 0, 0.8); }
+    50% { text-shadow: 2px 2px 0 #8b6914, 4px 4px 20px rgba(212, 175, 55, 0.6); }
+}
+
+/* Results Table - Ledger Style */
+.results-table table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    border: 3px solid #8b6914;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results-table th {
+    padding: 15px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c1810;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #8b6914;
+}
+
+.results-table td {
+    padding: 12px;
+    border-bottom: 1px solid #8b6914;
+    background: rgba(101, 67, 33, 0.5);
+}
+
+.results-table .winner-cell {
+    background: rgba(78, 255, 78, 0.3);
+    font-weight: bold;
+    color: #4eff4e;
+    text-shadow: 0 0 10px rgba(78, 255, 78, 0.5);
+}
+
+/* Mobile Controls - Sheriff Badge Style */
+.mobile-player-btn {
+    flex: 1;
+    padding: 35px 25px;
+    font-size: 1.6em;
+    font-weight: 900;
+    font-family: 'Courier New', monospace;
+    background: 
+        radial-gradient(circle, #d4af37 0%, #b8941f 50%, #8b6914 100%);
+    color: #2c1810;
+    border: 4px solid #654321;
+    border-radius: 20px;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 6px 0 #654321,
+        0 8px 20px rgba(0, 0, 0, 0.6);
+    transition: all 0.2s;
+    touch-action: manipulation;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.mobile-player-btn:active {
+    transform: translateY(4px);
+    box-shadow: 
+        0 2px 0 #654321,
+        0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em;
+        letter-spacing: 6px;
+    }
+    
+    h1::before,
+    h1::after {
+        display: none;
+    }
+    
+    .customization-container,
+    .online-container {
+        flex-direction: column;
+    }
+    
+    button {
+        font-size: 1.2em;
+        padding: 14px 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em;
+        letter-spacing: 3px;
+    }
+    
+    .screen {
+        padding: 20px;
+    }
+}
+
+
+/* ========================================
+   ADVANCED WESTERN EFFECTS
+   ======================================== */
+
+/* Tumbleweed Animation */
+.tumbleweed {
+    position: fixed;
+    bottom: -50px;
+    font-size: 3em;
+    opacity: 0.3;
+    animation: tumble 15s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes tumble {
+    0% {
+        left: -100px;
+        transform: rotate(0deg);
+        bottom: 10%;
+    }
+    100% {
+        left: 110%;
+        transform: rotate(720deg);
+        bottom: 5%;
+    }
+}
+
+/* Add tumbleweeds via JavaScript or pseudo-elements */
+body::after {
+    content: '🌾';
+    position: fixed;
+    bottom: -50px;
+    font-size: 2.5em;
+    opacity: 0.2;
+    animation: tumble 20s linear infinite 5s;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Leather Texture on Buttons */
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.05) 2px,
+            rgba(0, 0, 0, 0.05) 4px
+        );
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* Rope Border Effect */
+.rope-border {
+    border: 4px solid transparent;
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            #8b6914 0px,
+            #8b6914 8px,
+            #d4af37 8px,
+            #d4af37 16px,
+            #8b6914 16px,
+            #8b6914 24px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            #8b6914 0px,
+            #8b6914 8px,
+            #d4af37 8px,
+            #d4af37 16px,
+            #8b6914 16px,
+            #8b6914 24px
+        );
+    background-size: 100% 4px, 4px 100%;
+    background-position: 0 0, 0 0;
+    background-repeat: repeat-x, repeat-y;
+}
+
+/* Bullet Hole Decorations */
+.bullet-hole {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle, #000 30%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.4;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.screen .bullet-hole:nth-child(1) {
+    top: 25%;
+    right: 15%;
+    transform: rotate(15deg);
+}
+
+.screen .bullet-hole:nth-child(2) {
+    bottom: 30%;
+    left: 10%;
+    transform: rotate(-25deg);
+}
+
+/* Wanted Poster Texture */
+.wanted-poster {
+    background: 
+        linear-gradient(135deg, rgba(244, 228, 193, 0.95) 0%, rgba(222, 184, 135, 0.95) 100%);
+    border: 8px solid #8b6914;
+    box-shadow: 
+        0 0 0 2px #d4af37,
+        0 15px 40px rgba(0, 0, 0, 0.8),
+        inset 0 0 100px rgba(139, 69, 19, 0.1);
+    position: relative;
+    padding: 40px;
+}
+
+.wanted-poster::before {
+    content: 'WANTED';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3em;
+    font-weight: 900;
+    color: #8b0000;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    letter-spacing: 8px;
+}
+
+/* Saloon Door Swing Effect */
+.saloon-door {
+    transform-origin: left center;
+    animation: doorSwing 0.6s ease-out;
+}
+
+@keyframes doorSwing {
+    0% { transform: perspective(400px) rotateY(-90deg); opacity: 0; }
+    100% { transform: perspective(400px) rotateY(0deg); opacity: 1; }
+}
+
+/* Sunset Gradient Background Option */
+.sunset-mode {
+    background: 
+        linear-gradient(
+            to bottom,
+            #ff6b35 0%,
+            #f7931e 20%,
+            #fdc830 40%,
+            #f37335 60%,
+            #8b4513 80%,
+            #2c1810 100%
+        );
+}
+
+/* Campfire Glow Effect */
+.campfire-glow {
+    animation: fireGlow 3s ease-in-out infinite;
+}
+
+@keyframes fireGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 140, 0, 0.4),
+            0 0 40px rgba(255, 69, 0, 0.3),
+            0 0 60px rgba(255, 0, 0, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 140, 0, 0.6),
+            0 0 60px rgba(255, 69, 0, 0.5),
+            0 0 90px rgba(255, 0, 0, 0.4);
+    }
+}
+
+/* Horseshoe Decoration */
+.horseshoe {
+    position: relative;
+}
+
+.horseshoe::before {
+    content: '🐴';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    opacity: 0.6;
+}
+
+/* Sheriff Star Badge */
+.sheriff-star {
+    position: relative;
+    display: inline-block;
+}
+
+.sheriff-star::before {
+    content: '⭐';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5em;
+    animation: starRotate 4s linear infinite;
+}
+
+@keyframes starRotate {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Cactus Border Decoration */
+.cactus-border::before,
+.cactus-border::after {
+    content: '🌵';
+    position: absolute;
+    font-size: 2em;
+    opacity: 0.4;
+}
+
+.cactus-border::before {
+    top: 50%;
+    left: -50px;
+    transform: translateY(-50%);
+}
+
+.cactus-border::after {
+    top: 50%;
+    right: -50px;
+    transform: translateY(-50%);
+}
+
+/* Whiskey Glass Effect for Buttons */
+.whiskey-btn {
+    background: 
+        linear-gradient(135deg, 
+            rgba(184, 134, 11, 0.9) 0%,
+            rgba(218, 165, 32, 0.9) 50%,
+            rgba(184, 134, 11, 0.9) 100%
+        );
+    box-shadow: 
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.3),
+        0 6px 0 #654321,
+        0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Lasso Rope Spinner */
+.lasso-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid transparent;
+    border-top-color: #d4af37;
+    border-right-color: #d4af37;
+    border-radius: 50%;
+    animation: lassoSpin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes lassoSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Spurs Jingle Animation */
+.spurs-jingle {
+    animation: jingle 0.5s ease-in-out infinite;
+}
+
+@keyframes jingle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* Dusty Trail Effect */
+.dusty-trail {
+    position: relative;
+    overflow: hidden;
+}
+
+.dusty-trail::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100%;
+    width: 200%;
+    height: 30px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(244, 228, 193, 0.3) 50%,
+        transparent 100%
+    );
+    animation: dustMove 3s linear infinite;
+}
+
+@keyframes dustMove {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Wagon Wheel Loader */
+.wagon-wheel {
+    width: 80px;
+    height: 80px;
+    border: 6px solid #8b6914;
+    border-radius: 50%;
+    position: relative;
+    animation: wheelRoll 2s linear infinite;
+    margin: 30px auto;
+}
+
+.wagon-wheel::before,
+.wagon-wheel::after {
+    content: '';
+    position: absolute;
+    background: #8b6914;
+}
+
+.wagon-wheel::before {
+    width: 100%;
+    height: 6px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.wagon-wheel::after {
+    width: 6px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+@keyframes wheelRoll {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Saloon Piano Keys Effect */
+.piano-keys {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.piano-key {
+    width: 30px;
+    height: 100px;
+    background: linear-gradient(to bottom, #f4e4c1 0%, #e0d0b0 100%);
+    border: 2px solid #8b6914;
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.piano-key:hover {
+    background: linear-gradient(to bottom, #fff 0%, #f4e4c1 100%);
+    transform: translateY(5px);
+}
+
+.piano-key.black {
+    width: 20px;
+    height: 60px;
+    background: linear-gradient(to bottom, #2c1810 0%, #000 100%);
+    margin: 0 -10px;
+    z-index: 1;
+}
+
+/* Revolver Cylinder Spinner */
+.revolver-cylinder {
+    width: 100px;
+    height: 100px;
+    border: 8px solid #8b6914;
+    border-radius: 50%;
+    position: relative;
+    animation: cylinderSpin 3s linear infinite;
+    margin: 20px auto;
+    background: radial-gradient(circle, #d4af37 0%, #8b6914 100%);
+}
+
+.revolver-cylinder::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #2c1810;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bullet-chamber {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #654321;
+    border-radius: 50%;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes cylinderSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Spittoon Effect */
+.spittoon {
+    width: 80px;
+    height: 60px;
+    background: linear-gradient(to bottom, #8b6914 0%, #654321 100%);
+    border-radius: 0 0 40px 40px;
+    border: 3px solid #d4af37;
+    margin: 20px auto;
+    position: relative;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.spittoon::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 20px;
+    background: #d4af37;
+    border-radius: 50%;
+    border: 3px solid #8b6914;
+}
+
+/* Bandit Mask Overlay */
+.bandit-mask {
+    position: relative;
+}
+
+.bandit-mask::before {
+    content: '🎭';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2em;
+    opacity: 0.3;
+    transform: rotate(15deg);
+}
+
+/* Gold Nugget Shine */
+.gold-nugget {
+    background: 
+        radial-gradient(ellipse at 30% 30%, #fff 0%, #d4af37 30%, #b8941f 60%, #8b6914 100%);
+    animation: nuggetShine 2s ease-in-out infinite;
+}
+
+@keyframes nuggetShine {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.3);
+    }
+}
+
+/* Apply effects to specific elements */
+.mode-btn {
+    position: relative;
+}
+
+.mode-btn::after {
+    content: '🤠';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.mode-btn:hover::after {
+    opacity: 1;
+}
+
+/* Winner Announcement with Gold Shine */
+#winner-announcement {
+    font-size: 3em;
+    color: #d4af37;
+    margin: 30px 0;
+    font-weight: 900;
+    text-shadow: 
+        0 0 10px #d4af37,
+        0 0 20px #d4af37,
+        0 0 30px #d4af37,
+        3px 3px 0 #8b6914,
+        6px 6px 15px rgba(0, 0, 0, 0.8);
+    animation: goldShine 2s ease-in-out infinite;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+@keyframes goldShine {
+    0%, 100% {
+        text-shadow: 
+            0 0 10px #d4af37,
+            0 0 20px #d4af37,
+            0 0 30px #d4af37,
+            3px 3px 0 #8b6914,
+            6px 6px 15px rgba(0, 0, 0, 0.8);
+    }
+    50% {
+        text-shadow: 
+            0 0 20px #fff,
+            0 0 30px #d4af37,
+            0 0 40px #d4af37,
+            3px 3px 0 #8b6914,
+            6px 6px 20px rgba(212, 175, 55, 0.6);
+    }
+}
+
+/* Room Code with Glowing Effect */
+.room-code {
+    font-size: 3.5em;
+    letter-spacing: 15px;
+    color: #4eff4e;
+    font-weight: 900;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 25px 50px;
+    border-radius: 15px;
+    border: 4px solid #4eff4e;
+    text-shadow: 
+        0 0 10px #4eff4e,
+        0 0 20px #4eff4e,
+        0 0 30px #4eff4e;
+    box-shadow: 
+        0 0 20px rgba(78, 255, 78, 0.5),
+        inset 0 0 20px rgba(78, 255, 78, 0.2);
+    user-select: all;
+    cursor: pointer;
+    animation: codeGlow 2s ease-in-out infinite;
+}
+
+@keyframes codeGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(78, 255, 78, 0.5),
+            inset 0 0 20px rgba(78, 255, 78, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px rgba(78, 255, 78, 0.8),
+            inset 0 0 30px rgba(78, 255, 78, 0.4);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cactus-border::before,
+    .cactus-border::after {
+        display: none;
+    }
+    
+    .horseshoe::before {
+        font-size: 1.5em;
+        top: -30px;
+    }
+    
+    .room-code {
+        font-size: 2em;
+        letter-spacing: 8px;
+        padding: 15px 30px;
+    }
+}
+
+
+/* ========================================
+   USER AUTHENTICATION PANEL - TOP RIGHT
+   ======================================== */
+
+.user-profile {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+}
+
+.auth-section {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.95) 0%, rgba(101, 67, 33, 0.95) 100%);
+    padding: 15px;
+    border-radius: 10px;
+    border: 3px solid #d4af37;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.auth-btn {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: #2c1810;
+    border: 2px solid #8b6914;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 
+        0 3px 0 #8b6914,
+        0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.auth-btn:hover {
+    background: linear-gradient(135deg, #f4e4c1 0%, #d4af37 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 5px 0 #8b6914,
+        0 7px 15px rgba(0, 0, 0, 0.5);
+}
+
+.auth-btn:active {
+    transform: translateY(2px);
+    box-shadow: 
+        0 1px 0 #8b6914,
+        0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.auth-btn.secondary {
+    background: linear-gradient(135deg, #666 0%, #444 100%);
+    color: #f4e4c1;
+    border-color: #333;
+    box-shadow: 
+        0 3px 0 #333,
+        0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.auth-btn.secondary:hover {
+    background: linear-gradient(135deg, #888 0%, #666 100%);
+}
+
+.auth-btn.small {
+    padding: 8px 15px;
+    font-size: 0.85em;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.95) 0%, rgba(101, 67, 33, 0.95) 100%);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 3px solid #d4af37;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Sheriff Badge decoration */
+.user-section::before {
+    content: '⭐';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8em;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.username {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #d4af37;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.user-stats {
+    font-size: 0.9em;
+    color: #f4e4c1;
+    font-weight: bold;
+}
+
+.user-stats span {
+    color: #4eff4e;
+    text-shadow: 0 0 5px rgba(78, 255, 78, 0.5);
+}
+
+/* Mobile adjustments for auth panel */
+@media (max-width: 768px) {
+    .user-profile {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .auth-section {
+        justify-content: center;
+        padding: 12px;
+    }
+    
+    .auth-btn {
+        padding: 8px 15px;
+        font-size: 0.85em;
+        flex: 1;
+        min-width: 80px;
+    }
+    
+    .user-section {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 15px;
+        text-align: center;
+    }
+    
+    .user-section::before {
+        top: -12px;
+        font-size: 1.5em;
+    }
+    
+    .user-info {
+        align-items: center;
+    }
+    
+    .username {
+        font-size: 1em;
+    }
+    
+    .user-stats {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile {
+        top: 5px;
+        right: 5px;
+        left: 5px;
+    }
+    
+    .auth-section {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .auth-btn {
+        padding: 6px 12px;
+        font-size: 0.75em;
+    }
+}
+
+/* Ensure auth panel stays above everything */
+.user-profile {
+    pointer-events: auto;
+}
+
+.user-profile * {
+    pointer-events: auto;
+}
+
+/* Add some breathing room to container when auth panel is present */
+body {
+    padding-top: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding-top: 80px;
+    }
+}
+
+
+/* ========================================
+   PROFILE PAGE - WANTED POSTER STYLE
+   ======================================== */
+
+.profile-container {
+    background: 
+        linear-gradient(135deg, rgba(244, 228, 193, 0.98) 0%, rgba(222, 184, 135, 0.98) 100%);
+    border: 10px solid #8b6914;
+    border-radius: 15px;
+    padding: 50px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 
+        0 0 0 3px #d4af37,
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        inset 0 0 100px rgba(139, 69, 19, 0.15);
+    position: relative;
+}
+
+/* Wanted Poster Header */
+.profile-container::before {
+    content: 'WANTED';
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3.5em;
+    font-weight: 900;
+    color: #8b0000;
+    text-shadow: 
+        3px 3px 0 rgba(0, 0, 0, 0.2),
+        -1px -1px 0 rgba(255, 255, 255, 0.3);
+    letter-spacing: 12px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Nail decorations on corners */
+.profile-container::after {
+    content: '⚫ ⚫';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: #654321;
+    font-size: 1.8em;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.profile-header {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+
+.profile-character {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.profile-character::before {
+    content: 'SUSPECT';
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #8b0000;
+    letter-spacing: 3px;
+}
+
+.profile-character canvas {
+    border: 5px solid #8b6914;
+    border-radius: 10px;
+    background: rgba(135, 206, 235, 0.4);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    color: #2c1810;
+    font-size: 3em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0 rgba(139, 69, 19, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 900;
+    border-bottom: 4px solid #8b6914;
+    padding-bottom: 15px;
+}
+
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stat-box {
+    background: 
+        linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(101, 67, 33, 0.3) 100%);
+    border: 4px solid #8b6914;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+/* Brass corner decorations */
+.stat-box::before,
+.stat-box::after {
+    content: '◆';
+    position: absolute;
+    color: #d4af37;
+    font-size: 0.8em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.stat-box::before {
+    top: 5px;
+    left: 5px;
+}
+
+.stat-box::after {
+    bottom: 5px;
+    right: 5px;
+}
+
+.stat-label {
+    color: #654321;
+    font-size: 0.95em;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    color: #8b0000;
+    font-size: 2.2em;
+    font-weight: 900;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    font-family: 'Courier New', monospace;
+}
+
+/* Special styling for ELO */
+.stat-box:first-child .stat-value {
+    color: #d4af37;
+    text-shadow: 
+        2px 2px 0 #8b6914,
+        0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Special styling for Win Rate */
+.stat-box:nth-child(2) .stat-value {
+    color: #228b22;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 3px dashed #8b6914;
+}
+
+.profile-actions .auth-btn {
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    font-size: 1.1em;
+    padding: 14px 35px;
+}
+
+/* Loading Spinner - Wagon Wheel */
+.profile-container .loading-spinner {
+    text-align: center;
+    padding: 80px 40px;
+}
+
+.profile-container .loading-spinner p {
+    margin-top: 30px;
+    color: #654321;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.profile-container .spinner {
+    /* Inherits wagon wheel from main style.css */
+    border-color: #8b6914;
+    width: 80px;
+    height: 80px;
+    border-width: 6px;
+}
+
+/* Error Message */
+.profile-container .error-message {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.profile-container .error-message h2 {
+    color: #8b0000;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.profile-container .error-message p {
+    color: #654321;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+/* Reward Badge for High Rank */
+.profile-info h2::after {
+    content: '💰';
+    margin-left: 15px;
+    font-size: 0.7em;
+    opacity: 0.6;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 40px 20px;
+    }
+    
+    .profile-container::before {
+        font-size: 2.5em;
+        letter-spacing: 6px;
+        top: 10px;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        margin-top: 50px;
+    }
+    
+    .profile-character::before {
+        font-size: 1em;
+        top: -20px;
+    }
+    
+    .profile-info {
+        width: 100%;
+    }
+    
+    .profile-info h2 {
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .profile-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .stat-box {
+        padding: 15px;
+    }
+    
+    .stat-value {
+        font-size: 1.8em;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .profile-actions .auth-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 30px 15px;
+    }
+    
+    .profile-container::before {
+        font-size: 2em;
+        letter-spacing: 4px;
+    }
+    
+    .profile-character canvas {
+        width: 150px;
+        height: 187px;
+    }
+    
+    .profile-info h2 {
+        font-size: 1.5em;
+        letter-spacing: 2px;
+    }
+    
+    .stat-label {
+        font-size: 0.85em;
+    }
+    
+    .stat-value {
+        font-size: 1.5em;
+    }
+}
+
+/* Parchment texture effect */
+.profile-container {
+    background-image: 
+        linear-gradient(135deg, rgba(244, 228, 193, 0.98) 0%, rgba(222, 184, 135, 0.98) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(139, 69, 19, 0.03) 2px,
+            rgba(139, 69, 19, 0.03) 4px
+        );
+}
+
+/* Torn edge effect */
+.profile-container {
+    clip-path: polygon(
+        0% 2%, 2% 0%, 98% 0%, 100% 2%,
+        100% 98%, 98% 100%, 2% 100%, 0% 98%
+    );
+}
+
+
+/* ========================================
+   ENHANCED PROFILE PAGE
+   ======================================== */
+
+.profile-rank-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid #d4af37;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.rank-icon {
+    font-size: 2.5em;
+}
+
+.rank-name {
+    font-size: 1.8em;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.profile-section {
+    margin-top: 40px;
+    padding: 30px;
+    background: rgba(139, 69, 19, 0.2);
+    border: 3px solid #8b6914;
+    border-radius: 10px;
+}
+
+.profile-section h3 {
+    color: #d4af37;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Achievements Grid */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #8b6914;
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.achievement-item.unlocked {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #d4af37;
+}
+
+.achievement-item.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.achievement-icon {
+    font-size: 2.5em;
+    flex-shrink: 0;
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #d4af37;
+    margin-bottom: 5px;
+}
+
+.achievement-desc {
+    font-size: 0.9em;
+    color: #f4e4c1;
+}
+
+.achievement-check {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #4eff4e;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Badges Grid */
+.badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(139, 105, 20, 0.3));
+    border: 3px solid #d4af37;
+    border-radius: 10px;
+    min-width: 120px;
+}
+
+.badge-icon {
+    font-size: 3em;
+    animation: badgeShine 2s ease-in-out infinite;
+}
+
+@keyframes badgeShine {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.1); filter: brightness(1.3); }
+}
+
+.badge-name {
+    font-size: 1em;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Head to Head Section */
+.h2h-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.h2h-stat {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #8b6914;
+    border-radius: 8px;
+}
+
+.h2h-label {
+    display: block;
+    font-size: 1.1em;
+    color: #f4e4c1;
+    margin-bottom: 10px;
+}
+
+.h2h-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 900;
+    color: #d4af37;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .h2h-stats {
+        flex-direction: column;
+    }
+    
+    .profile-section {
+        padding: 20px;
+    }
+    
+    .profile-rank-badge {
+        padding: 10px 15px;
+    }
+    
+    .rank-icon {
+        font-size: 2em;
+    }
+    
+    .rank-name {
+        font-size: 1.3em;
+    }
+}
