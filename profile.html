@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Player Profile - Gunslinger</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style-enhanced.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GUNSLINGER</h1>
+        
+        <div class="profile-container">
+            <div id="profile-loading" class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading profile...</p>
+            </div>
+            
+            <div id="profile-error" class="error-message hidden">
+                <h2>Profile Not Found</h2>
+                <p id="error-text">This player doesn't exist.</p>
+                <a href="index.html" class="auth-btn">Back to Game</a>
+            </div>
+            
+            <div id="profile-content" class="hidden">
+                <input type="hidden" id="profile-user-id" value="">
+                
+                <div class="profile-header">
+                    <div class="profile-character">
+                        <canvas id="profile-character-canvas" width="200" height="250"></canvas>
+                    </div>
+                    
+                    <div class="profile-info">
+                        <h2 id="profile-username">Player</h2>
+                        <div class="profile-rank-badge" id="profile-rank-badge">
+                            <span class="rank-icon">🥉</span>
+                            <span class="rank-name">Bronze</span>
+                        </div>
+                        
+                        <div class="profile-stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-label">ELO Rating</div>
+                                <div class="stat-value" id="profile-elo">1000</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Leaderboard Rank</div>
+                                <div class="stat-value" id="profile-rank">#-</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Win Rate</div>
+                                <div class="stat-value" id="profile-winrate">0%</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Wins / Losses</div>
+                                <div class="stat-value" id="profile-record">0 / 0</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Win Streak</div>
+                                <div class="stat-value" id="profile-streak">0 🔥</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Best Streak</div>
+                                <div class="stat-value" id="profile-best-streak">0</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Avg Reaction</div>
+                                <div class="stat-value" id="profile-avg-reaction">---</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Best Reaction</div>
+                                <div class="stat-value" id="profile-best-reaction">---</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Head to Head Section -->
+                <div id="head-to-head-section" class="profile-section hidden">
+                    <h3>⚔️ Head to Head Record</h3>
+                    <div class="h2h-stats">
+                        <div class="h2h-stat">
+                            <span class="h2h-label">Your Wins:</span>
+                            <span class="h2h-value" id="h2h-your-wins">0</span>
+                        </div>
+                        <div class="h2h-stat">
+                            <span class="h2h-label">Their Wins:</span>
+                            <span class="h2h-value" id="h2h-their-wins">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Achievements Section -->
+                <div class="profile-section">
+                    <h3>🏆 Achievements</h3>
+                    <div id="achievements-grid" class="achievements-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                
+                <!-- Badges Section -->
+                <div id="badges-section" class="profile-section hidden">
+                    <h3>⭐ Special Badges</h3>
+                    <div id="badges-grid" class="badges-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="index.html" class="auth-btn">Back to Game</a>
+                    <button id="send-friend-request-btn" class="auth-btn hidden">👥 Add Friend</button>
+                    <button id="view-leaderboard-btn" class="auth-btn secondary">View Leaderboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/firebase-client.js"></script>
+    <script src="js/friends.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>
