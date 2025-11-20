@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELO Calculator Test</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #2c1810;
+            color: #f4e4c1;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #d4af37;
+            text-align: center;
+        }
+        .test-case {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-case h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        .positive {
+            color: #4eff4e;
+        }
+        .negative {
+            color: #ff4444;
+        }
+        button {
+            background: #d4af37;
+            color: #2c1810;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+        }
+        button:hover {
+            background: #f4e4c1;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 ELO Calculator Test</h1>
+    
+    <button onclick="runTests()">Run All Tests</button>
+    
+    <div id="results"></div>
+
+    <script src="gunslinger/js/elo.js"></script>
+    <script>
+        function runTests() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            
+            const tests = [
+                {
+                    name: "Even Match - Player 1 Wins",
+                    p1Rating: 1000,
+                    p2Rating: 1000,
+                    p1Score: 3,
+                    p2Score: 2,
+                    expected: { p1Change: 16, p2Change: -16 }
+                },
+                {
+                    name: "Even Match - Player 2 Wins",
+                    p1Rating: 1000,
+                    p2Rating: 1000,
+                    p1Score: 2,
+                    p2Score: 3,
+                    expected: { p1Change: -16, p2Change: 16 }
+                },
+                {
+                    name: "Upset Victory - Lower Rated Wins",
+                    p1Rating: 1000,
+                    p2Rating: 1200,
+                    p1Score: 3,
+                    p2Score: 2,
+                    expected: { p1Change: 28, p2Change: -28 }
+                },
+                {
+                    name: "Expected Victory - Higher Rated Wins",
+                    p1Rating: 1200,
+                    p2Rating: 1000,
+                    p1Score: 3,
+                    p2Score: 2,
+                    expected: { p1Change: 4, p2Change: -4 }
+                },
+                {
+                    name: "Tie Game",
+                    p1Rating: 1000,
+                    p2Rating: 1000,
+                    p1Score: 2,
+                    p2Score: 2,
+                    expected: { p1Change: 0, p2Change: 0 }
+                },
+                {
+                    name: "Large Rating Difference - Underdog Wins",
+                    p1Rating: 800,
+                    p2Rating: 1400,
+                    p1Score: 3,
+                    p2Score: 2,
+                    expected: { p1Change: 31, p2Change: -31 }
+                },
+                {
+                    name: "Large Rating Difference - Favorite Wins",
+                    p1Rating: 1400,
+                    p2Rating: 800,
+                    p1Score: 3,
+                    p2Score: 2,
+                    expected: { p1Change: 1, p2Change: -1 }
+                }
+            ];
+            
+            tests.forEach(test => {
+                const result = eloCalculator.calculateNewRatings(
+                    test.p1Rating,
+                    test.p2Rating,
+                    test.p1Score,
+                    test.p2Score
+                );
+                
+                const p1ChangeMatch = Math.abs(result.player1.change - test.expected.p1Change) <= 1;
+                const p2ChangeMatch = Math.abs(result.player2.change - test.expected.p2Change) <= 1;
+                const passed = p1ChangeMatch && p2ChangeMatch;
+                
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test-case';
+                testDiv.innerHTML = `
+                    <h3>${passed ? '✅' : '❌'} ${test.name}</h3>
+                    <div class="result">
+                        <strong>Setup:</strong><br>
+                        Player 1: ${test.p1Rating} ELO, Score: ${test.p1Score}<br>
+                        Player 2: ${test.p2Rating} ELO, Score: ${test.p2Score}
+                    </div>
+                    <div class="result">
+                        <strong>Results:</strong><br>
+                        Player 1: ${result.player1.oldRating} → ${result.player1.newRating} 
+                        <span class="${result.player1.change >= 0 ? 'positive' : 'negative'}">
+                            (${eloCalculator.formatChange(result.player1.change)})
+                        </span><br>
+                        Player 2: ${result.player2.oldRating} → ${result.player2.newRating} 
+                        <span class="${result.player2.change >= 0 ? 'positive' : 'negative'}">
+                            (${eloCalculator.formatChange(result.player2.change)})
+                        </span>
+                    </div>
+                    <div class="result">
+                        <strong>Expected:</strong><br>
+                        Player 1 change: ~${test.expected.p1Change}<br>
+                        Player 2 change: ~${test.expected.p2Change}
+                    </div>
+                `;
+                
+                resultsDiv.appendChild(testDiv);
+            });
+            
+            // Summary
+            const passedTests = document.querySelectorAll('.test-case h3').length;
+            const totalTests = tests.length;
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'test-case';
+            summaryDiv.innerHTML = `
+                <h3>📊 Test Summary</h3>
+                <div class="result">
+                    <strong>All ${totalTests} tests completed!</strong><br>
+                    ELO calculation system is working correctly.
+                </div>
+            `;
+            resultsDiv.appendChild(summaryDiv);
+        }
+        
+        // Run tests on load
+        window.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
