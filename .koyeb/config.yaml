@@ -1,0 +1,23 @@
+services:
+  - name: gunslinger-server
+    type: web
+    build:
+      context: gunslinger-server
+      dockerfile: Dockerfile
+    ports:
+      - port: 8000
+        protocol: http
+    regions:
+      - fra
+    instance:
+      type: nano
+    health_check:
+      http:
+        path: /health
+        port: 8000
+        initial_delay_seconds: 10
+        timeout_seconds: 3
+        period_seconds: 30
+    env:
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gunslinger Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #8b4513;
+            border-radius: 10px;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #8b4513;
+        }
+        
+        .admin-tab {
+            padding: 10px 20px;
+            background: rgba(139, 69, 19, 0.3);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+        
+        .admin-tab.active {
+            background: #8b4513;
+            border-bottom: 3px solid #ff4444;
+        }
+        
+        .admin-section {
+            display: none;
+            padding: 20px;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .player-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .player-item {
+            background: rgba(139, 69, 19, 0.2);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .player-info {
+            flex: 1;
+        }
+        
+        .player-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .admin-btn {
+            padding: 8px 15px;
+            border: 2px solid #8b4513;
+            background: rgba(139, 69, 19, 0.5);
+            color: #fff;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background: #8b4513;
+            transform: scale(1.05);
+        }
+        
+        .admin-btn.danger {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.3);
+        }
+        
+        .admin-btn.danger:hover {
+            background: #ff4444;
+        }
+        
+        .admin-btn.success {
+            border-color: #4eff4e;
+            background: rgba(78, 255, 78, 0.3);
+        }
+        
+        .admin-btn.success:hover {
+            background: #4eff4e;
+            color: #000;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #8b4513;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1a1a;
+            padding: 30px;
+            border: 2px solid #8b4513;
+            border-radius: 10px;
+            min-width: 400px;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #8b4513;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .banned {
+            opacity: 0.6;
+            border-left: 4px solid #ff4444;
+        }
+        
+        .admin-badge {
+            background: #ffd700;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🔫 Gunslinger Admin Panel 🔫</h1>
+            <p id="admin-role"></p>
+            <button class="admin-btn" onclick="window.location.href='index.html'">Back to Game</button>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchTab('players')">Players</button>
+            <button class="admin-tab" onclick="switchTab('admins')">Admins</button>
+            <button class="admin-tab" onclick="switchTab('bans')">Bans</button>
+        </div>
+        
+        <!-- Players Section -->
+        <div id="players-section" class="admin-section active">
+            <input type="text" class="search-box" id="player-search" placeholder="Search players...">
+            <div class="player-list" id="player-list"></div>
+        </div>
+        
+        <!-- Admins Section -->
+        <div id="admins-section" class="admin-section">
+            <h2>Admin Management</h2>
+            <button class="admin-btn success" onclick="showAddAdminModal()">+ Add Admin</button>
+            <div class="player-list" id="admin-list"></div>
+        </div>
+        
+        <!-- Bans Section -->
+        <div id="bans-section" class="admin-section">
+            <h2>Banned Players</h2>
+            <div class="player-list" id="ban-list"></div>
+        </div>
+    </div>
+    
+    <!-- Edit Player Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Player</h2>
+            <p id="edit-player-name"></p>
+            <label>ELO:</label>
+            <input type="number" class="modal-input" id="edit-elo">
+            <label>Wins:</label>
+            <input type="number" class="modal-input" id="edit-wins">
+            <label>Losses:</label>
+            <input type="number" class="modal-input" id="edit-losses">
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="admin-btn success" onclick="savePlayerEdit()">Save</button>
+                <button class="admin-btn" onclick="closeModal('edit-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Admin Modal -->
+    <div id="add-admin-modal" class="modal">
+        <div class="modal-content">
+            <h2>Add Admin</h2>
+            <label>User ID:</label>
+            <input type="text" class="modal-input" id="new-admin-id" placeholder="Firebase User ID">
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="admin-btn success" onclick="addAdmin()">Add</button>
+                <button class="admin-btn" onclick="closeModal('add-admin-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/firebase-client.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

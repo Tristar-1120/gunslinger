@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2c1810">
+    <title>Gunslinger - Reaction Time Duel</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style-enhanced.css">
+</head>
+<body>
+    <!-- Landscape Mode Prompt -->
+    <div id="landscape-prompt" class="landscape-prompt hidden">
+        <div class="landscape-content">
+            <div class="rotate-icon">📱 ↻</div>
+            <h2>Please Rotate Your Device</h2>
+            <p>This game works best in landscape mode</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>GUNSLINGER</h1>
+        
+        <!-- User Profile Section -->
+        <div id="user-profile" class="user-profile">
+            <!-- Not logged in -->
+            <div id="auth-section" class="auth-section">
+                <button id="login-btn" class="auth-btn">Login</button>
+                <button id="signup-btn" class="auth-btn">Sign Up</button>
+                <button id="guest-btn" class="auth-btn secondary">Play as Guest</button>
+                <button id="leaderboard-btn-guest" class="auth-btn secondary">🏆 Leaderboard</button>
+            </div>
+            
+            <!-- Logged in -->
+            <div id="user-section" class="user-section hidden">
+                <div class="user-info">
+                    <span class="username" id="username-display">Player</span>
+                    <span class="user-stats">
+                        ELO: <span id="user-elo">1000</span> | 
+                        W: <span id="user-wins">0</span> | 
+                        G: <span id="user-games">0</span>
+                    </span>
+                </div>
+                <button id="view-friends-btn" class="auth-btn small">👥</button>
+                <button id="leaderboard-btn-user" class="auth-btn small">🏆</button>
+                <button id="admin-panel-btn" class="auth-btn small hidden" style="background: #8b4513;">🛡️</button>
+                <button id="logout-btn" class="auth-btn small">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 id="auth-modal-title">Login</h2>
+                
+                <form id="auth-form">
+                    <div class="form-group" id="username-group">
+                        <label for="auth-username">Username</label>
+                        <input type="text" id="auth-username" placeholder="Choose a username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auth-email-username">Email or Username</label>
+                        <input type="text" id="auth-email-username" placeholder="your@email.com or username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auth-password">Password</label>
+                        <input type="password" id="auth-password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="submit" id="auth-submit-btn" class="auth-btn">Submit</button>
+                    <p id="auth-error" class="error-message hidden"></p>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Friends Modal -->
+        <div id="friends-modal" class="modal hidden">
+            <div class="modal-content friends-content">
+                <span class="close-friends">&times;</span>
+                <h2>👥 Friends</h2>
+                
+                <div class="friends-tabs">
+                    <button class="tab-btn active" onclick="showFriendsTab('friends')">Friends</button>
+                    <button class="tab-btn" onclick="showFriendsTab('requests')">
+                        Requests <span id="friend-requests-badge" class="badge hidden">0</span>
+                    </button>
+                </div>
+                
+                <div id="friends-tab" class="friends-tab active">
+                    <div id="friends-list" class="friends-list">
+                        <p class="loading">Loading friends...</p>
+                    </div>
+                    <button id="add-friend-btn-1" class="auth-btn" style="margin-top: 20px; width: 100%;">+ Add Friends</button>
+                </div>
+                
+                <div id="requests-tab" class="friends-tab hidden">
+                    <h3>Pending Requests</h3>
+                    <div id="friend-requests-list" class="friend-requests-list">
+                        <p class="loading">Loading requests...</p>
+                    </div>
+                    <button id="add-friend-btn-2" class="auth-btn" style="margin-top: 20px; width: 100%;">+ Add Friends</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Friend Search Modal -->
+        <div id="add-friend-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-add-friend">&times;</span>
+                <h2>🔍 Find Friends</h2>
+                
+                <div class="search-box">
+                    <input type="text" id="add-friend-search-input" placeholder="Search by username..." />
+                    <button id="add-friend-search-btn" class="auth-btn small">Search</button>
+                </div>
+                
+                <div id="add-friend-search-results" class="add-friend-search-results"></div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Modal -->
+        <div id="leaderboard-modal" class="modal hidden">
+            <div class="modal-content leaderboard-content">
+                <span class="close-leaderboard">&times;</span>
+                <h2>🏆 Leaderboard</h2>
+                
+                <div class="leaderboard-container">
+                    <div id="leaderboard-loading" class="loading-spinner hidden">
+                        <div class="spinner"></div>
+                        <p>Loading rankings...</p>
+                    </div>
+                    
+                    <p id="leaderboard-error" class="error-message hidden"></p>
+                    
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>ELO</th>
+                                <th>W/L</th>
+                                <th>Win %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mode Selection Screen -->
+        <div id="mode-select" class="screen saloon-door cactus-border">
+            <span class="bullet-hole"></span>
+            <span class="bullet-hole"></span>
+            <h2>Select Game Mode</h2>
+            <div class="mode-buttons">
+                <button id="local-btn" class="mode-btn whiskey-btn">LOCAL MULTIPLAYER</button>
+                <button id="online-btn" class="mode-btn whiskey-btn">ONLINE MULTIPLAYER</button>
+            </div>
+        </div>
+
+        <!-- Online Setup Screen -->
+        <div id="online-setup" class="screen hidden cactus-border">
+            <h2>Online Multiplayer</h2>
+            <div class="online-container">
+                <div class="player-custom">
+                    <h3>Your Character</h3>
+                    <canvas id="online-preview" width="200" height="250"></canvas></canvas>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-hat-prev">◀</button>
+                        <span class="item-name" id="online-hat-name">Cowboy</span>
+                        <button class="carousel-btn" id="online-hat-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-outfit-prev">◀</button>
+                        <span class="item-name" id="online-outfit-name">Poncho</span>
+                        <button class="carousel-btn" id="online-outfit-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-gun-prev">◀</button>
+                        <span class="item-name" id="online-gun-name">Revolver</span>
+                        <button class="carousel-btn" id="online-gun-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-accessory-prev">◀</button>
+                        <span class="item-name" id="online-accessory-name">None</span>
+                        <button class="carousel-btn" id="online-accessory-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-eye-prev">◀</button>
+                        <span class="item-name" id="online-eye-name">Normal</span>
+                        <button class="carousel-btn" id="online-eye-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="online-body-prev">◀</button>
+                        <span class="item-name" id="online-body-name">Normal</span>
+                        <button class="carousel-btn" id="online-body-next">▶</button>
+                    </div>
+                    
+                    <div class="color-picker">
+                        <label>Outfit:</label>
+                        <input type="color" id="online-outfit-color" value="#ff4444">
+                    </div>
+                    <div class="color-picker">
+                        <label>Hat:</label>
+                        <input type="color" id="online-hat-color" value="#654321">
+                    </div>
+                    <div class="color-picker">
+                        <label>Gun:</label>
+                        <input type="color" id="online-gun-color" value="#2c2c2c">
+                    </div>
+                    
+                    <button id="save-character-btn" class="save-character-btn hidden">💾 SAVE CHARACTER</button>
+                    <p id="save-character-msg" class="save-msg hidden"></p>
+                </div>
+                
+                <div class="online-actions">
+                    <h3>Play Online</h3>
+                    <button id="quick-match-btn" class="mode-btn primary-btn">⚡ QUICK MATCH</button>
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    <button id="create-room-btn" class="mode-btn">CREATE PRIVATE ROOM</button>
+                    <div class="join-section">
+                        <input type="text" id="room-code-input" placeholder="Enter 6-digit code" maxlength="6">
+                        <button id="join-room-btn">JOIN ROOM</button>
+                    </div>
+                    <button id="back-online-btn" class="secondary-btn">BACK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matchmaking Queue Screen -->
+        <div id="queue-screen" class="screen hidden horseshoe">
+            <h2>⚡ Quick Match</h2>
+            <div class="queue-info">
+                <div class="queue-animation">
+                    <div class="spinner"></div>
+                </div>
+                <p id="queue-status" class="queue-status">Searching for opponent...</p>
+                <p id="queue-time" class="queue-time">0s</p>
+                <p id="queue-elo-range" class="queue-elo-range">Looking for players...</p>
+                <button id="cancel-queue-btn" class="secondary-btn">CANCEL</button>
+            </div>
+        </div>
+
+        <!-- Waiting Room -->
+        <div id="waiting-room" class="screen hidden horseshoe">
+            <h2>Waiting Room</h2>
+            <div class="room-info">
+                <div class="code-container">
+                    <h3>Room Code:</h3>
+                    <div class="code-display-wrapper">
+                        <span id="room-code-display" class="room-code gold-nugget">------</span>
+                        <button id="copy-code-btn" class="copy-btn" style="display: none;">
+                            📋 COPY CODE
+                        </button>
+                    </div>
+                </div>
+                <p id="waiting-message">Waiting for opponent...</p>
+                <div class="spinner"></div>
+            </div>
+            <p id="multiplayer-status"></p>
+        </div>
+
+        <!-- Customization Screen -->
+        <div id="customization" class="screen hidden cactus-border">
+            <h2>Customize Your Gunslinger</h2>
+            <div class="customization-container">
+                <!-- Player 1 -->
+                <div class="player-custom">
+                    <h3>Player 1</h3>
+                    <canvas id="p1-preview" width="200" height="250"></canvas>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-hat-prev">◀</button>
+                        <span class="item-name" id="p1-hat-name">Cowboy</span>
+                        <button class="carousel-btn" id="p1-hat-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-outfit-prev">◀</button>
+                        <span class="item-name" id="p1-outfit-name">Poncho</span>
+                        <button class="carousel-btn" id="p1-outfit-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-gun-prev">◀</button>
+                        <span class="item-name" id="p1-gun-name">Revolver</span>
+                        <button class="carousel-btn" id="p1-gun-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-accessory-prev">◀</button>
+                        <span class="item-name" id="p1-accessory-name">None</span>
+                        <button class="carousel-btn" id="p1-accessory-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-eye-prev">◀</button>
+                        <span class="item-name" id="p1-eye-name">Normal</span>
+                        <button class="carousel-btn" id="p1-eye-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p1-body-prev">◀</button>
+                        <span class="item-name" id="p1-body-name">Normal</span>
+                        <button class="carousel-btn" id="p1-body-next">▶</button>
+                    </div>
+                    
+                    <div class="color-picker">
+                        <label>Outfit:</label>
+                        <input type="color" id="p1-outfit-color" value="#ff4444">
+                    </div>
+                    <div class="color-picker">
+                        <label>Hat:</label>
+                        <input type="color" id="p1-hat-color" value="#654321">
+                    </div>
+                    <div class="color-picker">
+                        <label>Gun:</label>
+                        <input type="color" id="p1-gun-color" value="#2c2c2c">
+                    </div>
+                    
+                    <p class="controls">Press: SPACE</p>
+                </div>
+
+                <!-- Player 2 -->
+                <div class="player-custom">
+                    <h3>Player 2</h3>
+                    <canvas id="p2-preview" width="200" height="250"></canvas>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-hat-prev">◀</button>
+                        <span class="item-name" id="p2-hat-name">Cowboy</span>
+                        <button class="carousel-btn" id="p2-hat-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-outfit-prev">◀</button>
+                        <span class="item-name" id="p2-outfit-name">Poncho</span>
+                        <button class="carousel-btn" id="p2-outfit-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-gun-prev">◀</button>
+                        <span class="item-name" id="p2-gun-name">Revolver</span>
+                        <button class="carousel-btn" id="p2-gun-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-accessory-prev">◀</button>
+                        <span class="item-name" id="p2-accessory-name">None</span>
+                        <button class="carousel-btn" id="p2-accessory-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-eye-prev">◀</button>
+                        <span class="item-name" id="p2-eye-name">Normal</span>
+                        <button class="carousel-btn" id="p2-eye-next">▶</button>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <button class="carousel-btn" id="p2-body-prev">◀</button>
+                        <span class="item-name" id="p2-body-name">Normal</span>
+                        <button class="carousel-btn" id="p2-body-next">▶</button>
+                    </div>
+                    
+                    <div class="color-picker">
+                        <label>Outfit:</label>
+                        <input type="color" id="p2-outfit-color" value="#4444ff">
+                    </div>
+                    <div class="color-picker">
+                        <label>Hat:</label>
+                        <input type="color" id="p2-hat-color" value="#654321">
+                    </div>
+                    <div class="color-picker">
+                        <label>Gun:</label>
+                        <input type="color" id="p2-gun-color" value="#2c2c2c">
+                    </div>
+                    
+                    <p class="controls">Press: ENTER</p>
+                </div>
+            </div>
+            
+            <div class="button-row">
+                <button id="back-btn" class="secondary-btn">BACK</button>
+                <button id="start-btn">START GAME</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <span class="bullet-hole"></span>
+            <span class="bullet-hole"></span>
+            <div class="game-info">
+                <div class="score">
+                    <span id="p1-score">Player 1: 0</span>
+                    <span id="round-info">Round 1/5</span>
+                    <span id="p2-score">Player 2: 0</span>
+                </div>
+            </div>
+            <canvas id="game-canvas"></canvas>
+            <div id="status-text"></div>
+            
+            <!-- Mobile Touch Controls -->
+            <div id="mobile-controls" class="mobile-controls hidden">
+                <!-- Local mode: 2 buttons -->
+                <div id="mobile-local-controls" class="mobile-local-controls hidden">
+                    <button id="mobile-p1-btn" class="mobile-player-btn">
+                        PLAYER 1<br>🔫
+                    </button>
+                    <button id="mobile-p2-btn" class="mobile-player-btn">
+                        PLAYER 2<br>🔫
+                    </button>
+                </div>
+                <!-- Online mode: tap anywhere on canvas -->
+                <div id="mobile-online-controls" class="mobile-online-controls hidden">
+                    <p class="tap-instruction">TAP SCREEN TO SHOOT</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results" class="screen hidden campfire-glow horseshoe">
+            <h2>GAME OVER</h2>
+            <div id="winner-announcement"></div>
+            <div id="elo-change" class="elo-change hidden"></div>
+            <div class="results-table">
+                <h3>Round Results</h3>
+                <table id="results-table"></table>
+            </div>
+            <button id="play-again-btn">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/customization.js"></script>
+    <script src="js/firebase-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/elo.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/friends.js"></script>
+    <script src="js/multiplayer.js"></script>
+    <script src="js/matchmaking.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
