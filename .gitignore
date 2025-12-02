@@ -7,14 +7,6 @@ package-lock.json
 .env.local
 gunslinger/js/firebase-client.js
 
-# Deployment scripts with sensitive keys
-build.sh
-deploy.sh
-
-# Environment variables
-.env
-.env.local
-
 # Logs
 *.log
 npm-debug.log*
