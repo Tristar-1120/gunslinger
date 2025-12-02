@@ -1,5 +1,3 @@
-import { firebaseClient } from './firebase-client.js';
-
 const HEAD_ADMIN = '9b7BmmBbrFSZ5citqFe3oKfXw363';
 let currentUser = null;
 let isHeadAdmin = false;
